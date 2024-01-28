@@ -12,15 +12,9 @@ type Move = (Peg, Peg)
 
 -- from `a` to `b`
 -- `c`, and `d` are temporary storage
-hanoiWithFour :: Integer -> Peg -> Peg -> Peg -> Peg -> Integer -> [Move]
-hanoiWithFour n a b c d k
-  | n <= 0 = []
-  | n == 1 = [(a, b)]
-  | n == 2 = [(a, c), (a, b), (c, b)]
-  | otherwise = hanoiWithFour (n - k) a c b d k ++ (hanoi k a b d) ++ hanoiWithFour (n - k) c b a d k
 
-hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
-hanoi n a b c
+hanoiWithFour :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move]
+hanoiWithFour n a b c d
   | n <= 0 = []
   | n == 1 = [(a, b)]
-  | otherwise = hanoi (n - 1) a c b ++ [(a, b)] ++ hanoi (n - 1) c b a
+  | otherwise = hanoiWithFour (n - 2) a c b d ++ [(a, d), (a, b), (d, b)] ++ hanoiWithFour (n - 2) c b a d
